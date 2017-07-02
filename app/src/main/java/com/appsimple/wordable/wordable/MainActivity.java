@@ -5,8 +5,6 @@ import android.content.Context;
 import android.content.pm.ActivityInfo;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.Typeface;
 import android.os.Bundle;
@@ -18,22 +16,34 @@ import android.view.SurfaceView;
 import android.view.View;
 import android.view.View.OnTouchListener;
 import android.view.WindowManager;
-import android.widget.TextView;
+import android.view.animation.Animation;
 
+import com.appsimple.wordable.wordable.canvas.AnimationClass;
 import com.appsimple.wordable.wordable.canvas.BitmapsCreator;
-import com.appsimple.wordable.wordable.canvas.DrawEverything;
+import com.appsimple.wordable.wordable.canvas.DrawEndlessMode;
+import com.appsimple.wordable.wordable.canvas.DrawMainMenu;
 
 public class MainActivity extends Activity implements OnTouchListener{
 
     CanvasView v;
      public static Bitmap background; // Todos los bitmaps
-
-    int frameRateMod = 40;
+        public static boolean shouldscramble = true;
+    int frameRateMod = 5;
     public static int gamestate = 1; // lo creo aca pero en realidad lo tiene que buscar
+
+    public static String palabra, letra1, letra2, letra3, letra4, letra5, letra6;
+
+    public static int letra1xf, letra1yf, letra2xf, letra2yf, letra3xf, letra3yf, letra4xf, letra4yf, letra5xf, letra5yf, letra6xf, letra6yf;
+    public static int letra1x0, letra1y0, letra2x0, letra2y0, letra3x0, letra3y0, letra4x0, letra4y0, letra5x0, letra5y0, letra6x0, letra6y0;
+
+
 
     public static int gridX, gridY, screenwidth, screenheight;
     public static int gridScaleX = 20;
     public static int gridSacleY = 32;
+
+    public static Typeface font;
+    public static int colorchalk = 0xeefffeeb;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +54,7 @@ public class MainActivity extends Activity implements OnTouchListener{
 
         Log.println(Log.VERBOSE,"", "***********Paso por Oncreate************");
 
+        font = Typeface.createFromAsset(getAssets(), "chalkfont.ttf");
         WindowManager.LayoutParams layout = getWindow().getAttributes();
         getWindow().setAttributes(layout);
         setScreenSize();
@@ -67,7 +78,7 @@ public class MainActivity extends Activity implements OnTouchListener{
 
             case MotionEvent.ACTION_DOWN:
 
-                Log.println(Log.VERBOSE,"", "***********Paso por aqui************");
+                Log.println(Log.VERBOSE,"", "***********On touch event************");
 
 
                 ontouchx = event.getX();
@@ -138,7 +149,6 @@ public class MainActivity extends Activity implements OnTouchListener{
 
     private void loadCanvas() {
 
-
         setContentView(v);
 
 
@@ -159,6 +169,14 @@ public class MainActivity extends Activity implements OnTouchListener{
     @Override
     protected void onPause() {
         super.onPause();
+    }
+
+    @Override
+    public void onBackPressed(){
+
+        super.onBackPressed();
+
+        this.finish();
     }
 
 
@@ -241,7 +259,7 @@ public class MainActivity extends Activity implements OnTouchListener{
 
         /***********************************************************************************
          ***********************************************************************************
-         *********************** DIBUJAR TODO   SEGEUN GAMESTATE !!!!!**********************
+         *********************** DIBUJAR TO DO   SEGEUN GAMESTATE !!!!!**********************
          ***********************************************************************************
          ***********************************************************************************/
 
@@ -257,15 +275,20 @@ public class MainActivity extends Activity implements OnTouchListener{
         public void drawEverithing(int gamestate, Canvas canvas) {
 
 
+
+
             if (gamestate == 1) {
 
-                DrawEverything.loadMenuPrincipal(canvas);
+                DrawMainMenu.loadMenuPrincipal(canvas);
             }
 
 
             if (gamestate == 2){
 
-                DrawEverything.loadEndlessMode(canvas);
+
+                animateLetters();
+                DrawEndlessMode.loadEndlessMode(canvas);
+
             }
 
         }
@@ -273,19 +296,36 @@ public class MainActivity extends Activity implements OnTouchListener{
 
     }
 
+    private void animateLetters() {
+
+        letra1x0 = (int) AnimationClass.getSimpleAnimationX(letra1x0, letra1xf);
+        letra1y0 = (int) AnimationClass.getSimpleAnimationY(letra1y0, letra1yf);
+        letra2x0 = (int) AnimationClass.getSimpleAnimationX(letra2x0, letra2xf);
+        letra2y0 = (int) AnimationClass.getSimpleAnimationY(letra2y0, letra2yf);
+        letra3x0 = (int) AnimationClass.getSimpleAnimationX(letra3x0, letra3xf);
+        letra3y0 = (int) AnimationClass.getSimpleAnimationY(letra3y0, letra3yf);
+        letra4x0 = (int) AnimationClass.getSimpleAnimationX(letra4x0, letra4xf);
+        letra4y0 = (int) AnimationClass.getSimpleAnimationY(letra4y0, letra4yf);
+        letra5x0 = (int) AnimationClass.getSimpleAnimationX(letra5x0, letra5xf);
+        letra5y0 = (int) AnimationClass.getSimpleAnimationY(letra5y0, letra5yf);
+        letra6x0 = (int) AnimationClass.getSimpleAnimationX(letra6x0, letra6xf);
+        letra6y0 = (int) AnimationClass.getSimpleAnimationY(letra6y0, letra6yf);
+
+
+    }
 
 
     private void checkTouch(float xTouch, float yTouch) {
 
         if(gamestate == 1){
 
-            TouchDoAction.checkMenuTouch(xTouch, yTouch);
+            TouchDoActionMenu.checkMenuTouch(xTouch, yTouch);
 
         }
 
         if(gamestate == 2){
 
-            TouchDoAction.checkEndlessTouch(xTouch, yTouch);
+            TouchDoActionEndless.checkEndlessTouch(xTouch, yTouch);
 
         }
 

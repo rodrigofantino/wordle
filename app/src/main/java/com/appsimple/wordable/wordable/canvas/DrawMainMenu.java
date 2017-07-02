@@ -4,17 +4,21 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
-import android.graphics.Region;
-import android.graphics.Typeface;
-import android.util.Log;
+
 
 import com.appsimple.wordable.wordable.MainActivity;
+
 
 /**
  * Created by Rodrigo on 25/06/2017.
  */
 
-public class DrawEverything extends MainActivity {
+public class DrawMainMenu extends MainActivity {
+
+
+
+
+
 
     public static Paint txtnewgame = new Paint();
     public static Rect txtnewgamebounds = new Rect();
@@ -22,10 +26,12 @@ public class DrawEverything extends MainActivity {
     public static Paint txtshowgrid = new Paint();
     public static Rect txtshowgridbounds = new Rect();
 
-    public static Paint txtbackbutton = new Paint();
-    public static Rect txtbackbuttonbounds = new Rect();
+
 
     public static boolean drawGridboolean = false;
+
+
+
 
                 /*
                 *****************************************************************
@@ -83,16 +89,16 @@ public class DrawEverything extends MainActivity {
         int left, top, right, bottom;
 
 
-        txtnewgame.setColor(0xffffff00);
+        txtnewgame.setColor(colorchalk);
         txtnewgame.setStyle(Paint.Style.FILL);
-        txtnewgame.setTypeface(Typeface.DEFAULT);
+        txtnewgame.setTypeface(font);
         txtnewgame.setTextSize(100);
 
-        float w = txtnewgame.measureText("Endless Mode")/2;
+        float w = txtnewgame.measureText("ENDLESS MODE")/2;
 
 
         txtnewgame.setTextAlign(Paint.Align.CENTER);
-        canvas.drawText("Endless Mode", x, y ,txtnewgame);
+        canvas.drawText("ENDLESS MODE", x, y ,txtnewgame);
 
 
         // get text height
@@ -114,21 +120,21 @@ public class DrawEverything extends MainActivity {
 
     private static void drawShowGridButton(Canvas canvas) {
 
-        int y = gridY * 28;
+        int y = gridY * 3;
         int x = gridX * 15;
         int left, top, right, bottom;
 
 
-        txtshowgrid.setColor(0xffffff00);
+        txtshowgrid.setColor(MainActivity.colorchalk);
         txtshowgrid.setStyle(Paint.Style.FILL);
-        txtshowgrid.setTypeface(Typeface.DEFAULT);
+        txtshowgrid.setTypeface(MainActivity.font);
         txtshowgrid.setTextSize(100);
 
-        float w = txtshowgrid.measureText("Show Grid")/2;
+        float w = txtshowgrid.measureText("SHOW GRID")/2;
 
 
         txtshowgrid.setTextAlign(Paint.Align.CENTER);
-        canvas.drawText("Show Grid", x, y ,txtshowgrid);
+        canvas.drawText("SHOW GRID", x, y ,txtshowgrid);
 
 
         // get text height
@@ -149,56 +155,6 @@ public class DrawEverything extends MainActivity {
         canvas.drawBitmap(background, 0, 0, null);
 
 
-    }
-
-
-    /*
-    *****************************************************************
-    *****************************************************************
-    ******************* MODO ENDLESS (gamemode 2) *******************
-    *****************************************************************
-    *****************************************************************
-     */
-
-    public static void loadEndlessMode(Canvas canvas) {
-
-        drawMenuBackground(canvas);
-        drawBackbutton(canvas);
-        drawShowGridButton(canvas);
-        // ACA TODAS LAC COSAS QUE DEBERIA CARGAR EN ESTE MODO
-
-    }
-
-    private static void drawBackbutton(Canvas canvas) {
-
-        int y = gridY * 18;
-        int x = gridX * 5;
-        int left, top, right, bottom;
-
-
-        txtbackbutton.setColor(0xffffff00);
-        txtbackbutton.setStyle(Paint.Style.FILL);
-        txtbackbutton.setTypeface(Typeface.DEFAULT);
-        txtbackbutton.setTextSize(100);
-
-        float w = txtbackbutton.measureText("Go back")/2;
-
-
-        txtbackbutton.setTextAlign(Paint.Align.CENTER);
-        canvas.drawText("Go back", x, y ,txtbackbutton);
-
-
-        // get text height
-        Paint.FontMetrics fm = txtbackbutton.getFontMetrics();
-        float textHeight = fm.descent - fm.ascent;
-
-        left = x - (int)(Math.round(w));
-        top = y - (int)(Math.round(textHeight));
-        right = x + (int)(Math.round(w));
-        bottom = y ;
-
-
-        txtbackbuttonbounds.set(left, top, right, bottom);
     }
 
 
